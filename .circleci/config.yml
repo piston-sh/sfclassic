@@ -8,6 +8,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /sourceforts-server
+      - checkout
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
       - persist_to_workspace:
           root: ./
@@ -31,7 +32,6 @@ jobs:
       - image: docker
     steps:
       - setup_remote_docker
-      - checkout
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
