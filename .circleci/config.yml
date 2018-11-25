@@ -1,41 +1,30 @@
 version: 2
 
-persistence: &persistence
-  persist_to_workspace:
-    root: ./
-    paths:
-      - ./
-
 jobs:
   download:
-    working_directory: /tmp/workspace
+    working_directory: /sourceforts-server
     docker:
       - image: garland/aws-cli-docker:latest
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
-      - *persistence
   unarchive:
-    working_directory: /tmp/workspace
+    working_directory: /sourceforts-server
     docker:
       - image: sourceforts/7zip
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
       - run: 7za e -r -aoa -osourceforts sourceforts.7z
-      - *persistence
   build:
-    working_directory: /tmp/workspace
+    working_directory: /sourceforts-server
     machine: true
     steps:
+      - setup_remote_docker
       - checkout
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
-    working_directory: /tmp/workspace
     machine: true
     steps:
+      - setup_remote_docker
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push sourceforts/server:$CIRCLE_BUILD_NUM
