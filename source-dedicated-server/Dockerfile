@@ -4,12 +4,12 @@ LABEL maintainer="admin@deniscraig.com"
 ENV DEDICATED_SERVER_DIR=/steam/steamapps/common/Source\ Dedicated\ Server\ Server
 
 # Run Steamcmd and install dependencies
-# - 205 Source Dedicated Server
-# - 215 Source SDK Base 2006
-# - 232370 Half-Life 2 Deathmatch Dedicated Server
+# - 244310      Source SDK Base 2013 Dedicated Server
+# - 243730      Source SDK Base 2013 Multiplayer
+# - 232370      Half-Life 2 Deathmatch Dedicated Server
 RUN steamcmd.sh +login anonymous +force_install_dir $STEAM_HOME_DIR \
-        +app_update 205 validate \
-        +app_update 215 validate \
+        +app_update 244310 validate \
+        +app_update 243730 validate \
         +app_update 232370 validate \
         +quit;
 
