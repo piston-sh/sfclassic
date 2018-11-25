@@ -18,6 +18,7 @@ RUN useradd steam && adduser steam steam
 RUN mkdir -p $STEAMCMD_DIR && chown steam:steam $STEAMCMD_DIR
 RUN mkdir -p $STEAM_HOME_DIR && chown steam:steam $STEAM_HOME_DIR
 USER steam
+RUN mkdir -p $STEAM_HOME_DIR/.steam
 
 # Create Directory for SteamCMD
 # Download SteamCMD
@@ -26,6 +27,8 @@ RUN cd $STEAMCMD_DIR && \
         curl -o steamcmd_linux.tar.gz "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" && \
         tar zxf steamcmd_linux.tar.gz && \
         rm steamcmd_linux.tar.gz
+
+RUN ln -s $STEAMCMD_DIR/linux32 $STEAM_HOME_DIR/.steam/sdk32
 
 USER root
 RUN apt-get remove -y curl && \
