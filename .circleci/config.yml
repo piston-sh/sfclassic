@@ -14,7 +14,6 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - checkout
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
       - *persistence
   unarchive:
@@ -30,6 +29,7 @@ jobs:
     working_directory: /tmp/workspace
     machine: true
     steps:
+      - checkout
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
