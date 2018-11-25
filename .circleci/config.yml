@@ -61,11 +61,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: |
-          docker build -t sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM -t sourceforts/source-dedicated-server:latest ./source-dedicated-server
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM
-          docker push sourceforts/source-dedicated-server:latest
+      - run:
+          command: |
+            docker build --build-arg steam_username=$STEAM_USERNAME --build-arg steam_password=$STEAM_PASSWORD -t sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM -t sourceforts/source-dedicated-server:latest ./source-dedicated-server
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            docker push sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM
+            docker push sourceforts/source-dedicated-server:latest
   build-steamcmd:
     working_directory: /sourceforts-server
     docker:
