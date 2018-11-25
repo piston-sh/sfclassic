@@ -27,14 +27,16 @@ jobs:
             - sourceforts
   build:
     working_directory: /sourceforts-server
-    machine: true
+    docker:
+      - image: docker
     steps:
       - setup_remote_docker
       - checkout
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
-    machine: true
+    docker:
+      - image: docker
     steps:
       - setup_remote_docker
       - run: |
