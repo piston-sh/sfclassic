@@ -4,7 +4,7 @@ LABEL maintainer="admin@deniscraig.com"
 # Run Steamcmd and install dependencies
 # - 244310      Source SDK Base 2013 Dedicated Server
 # - 243750      Source SDK Base 2013 Multiplayer
-RUN steamcmd.sh +login $(STEAM_USERNAME) $(STEAM_PASSWORD) \
+RUN steamcmd.sh +login ${STEAM_USERNAME} ${STEAM_PASSWORD} \
         +force_install_dir $STEAM_HOME_DIR \
         +app_update 244310 validate \
         +app_update 243750 validate \
