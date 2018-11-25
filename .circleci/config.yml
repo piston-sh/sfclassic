@@ -1,0 +1,64 @@
+version: 2
+
+defaults: &defaults
+  working_directory: /tmp/workspace
+
+jobs:
+  checkout:
+    <<: *defaults
+    steps:
+      - checkout
+      - persist_to_workspace:
+        root: ./
+        paths:
+          - ./
+  download:
+    <<: *defaults
+    docker:
+      - image: garland/aws-cli-docker:latest
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: aws s3 sync s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
+  unarchive:
+    <<: *defaults
+    docker:
+      - image: crazymax/7zip
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: 7za sourceforts sourceforts.7z
+  build:
+    <<: *defaults
+    docker:
+      - image: docker
+    steps:
+      - docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
+  deploy:
+    <<: *defaults
+    docker:
+      - image: docker
+    steps:
+      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - docker push sourceforts/server:$CIRCLE_BUILD_NUM
+      - docker push sourceforts/server:latest
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - checkout
+      - download:
+          context: sourceforts-server
+          requires:
+            - checkout
+      - unarchive:
+          requires:
+            - download
+      - build:
+          requires:
+            - unarchive
+      - deploy:
+          context: sourceforts-server
+          requires:
+            - build

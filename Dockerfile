@@ -1,8 +1,9 @@
 FROM cm2network/steamcmd
 LABEL maintainer="admin@deniscraig.com"
 
-RUN mkdir -p /home/steam/sourceforts
 COPY sourceforts /home/steam/sourceforts
+
+# Override server config
 COPY cfg /home/steam/sourceforts/cfg
 
 # Run Steamcmd and install SourceForts
@@ -14,14 +15,14 @@ RUN ./home/steam/steamcmd/steamcmd.sh +login anonymous \
         +quit
 
 RUN { \
-		echo '@ShutdownOnFailedCommand 1'; \
-		echo '@NoPromptForPassword 1'; \
-		echo 'login anonymous'; \
-		echo 'force_install_dir /home/steam/sourceforts/'; \
-		echo 'app_update 232370'; \
-        echo 'app_update 205'; \
-        echo 'app_update 215'; \
-		echo 'quit'; \
+	echo '@ShutdownOnFailedCommand 1'; \
+	echo '@NoPromptForPassword 1'; \
+	echo 'login anonymous'; \
+	echo 'force_install_dir /home/steam/sourceforts/'; \
+	echo 'app_update 232370'; \
+    echo 'app_update 205'; \
+    echo 'app_update 215'; \
+	echo 'quit'; \
 } > /home/steam/sourceforts/sourceforts_update.txt
 
 ENV HOSTNAME="docker-sourceforts"
