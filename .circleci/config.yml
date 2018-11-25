@@ -6,13 +6,25 @@ jobs:
     docker:
       - image: garland/aws-cli-docker:latest
     steps:
+      - attach_workspace:
+          at: /sourceforts-server
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - sourceforts.7z
   unarchive:
     working_directory: /sourceforts-server
     docker:
       - image: sourceforts/7zip
     steps:
+      - attach_workspace:
+          at: /sourceforts-server
       - run: 7za e -r -aoa -osourceforts sourceforts.7z
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - sourceforts
   build:
     working_directory: /sourceforts-server
     machine: true
