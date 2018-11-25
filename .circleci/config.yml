@@ -55,6 +55,9 @@ jobs:
     working_directory: /sourceforts-server
     docker:
       - image: docker
+        environment:
+          STEAM_USERNAME: $STEAM_USERNAME
+          STEAM_PASSWORD: $STEAM_PASSWORD
     steps:
       - setup_remote_docker
       - checkout
