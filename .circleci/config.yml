@@ -8,9 +8,9 @@ jobs:
     steps:
       - checkout
       - persist_to_workspace:
-        root: ./
-        paths:
-          - ./
+          root: ./
+          paths:
+            - ./
   download:
     working_directory: /tmp/workspace
     docker:
