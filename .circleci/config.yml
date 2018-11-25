@@ -32,6 +32,8 @@ jobs:
       - image: docker
     steps:
       - setup_remote_docker
+      - attach_workspace:
+          at: /sourceforts-server
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
