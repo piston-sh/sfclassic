@@ -24,7 +24,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: 7za e -r -ao -osourceforts sourceforts.7z
+      - run: 7za e -r -aoa -osourceforts sourceforts.7z
       - *persistence
   build:
     working_directory: /tmp/workspace
