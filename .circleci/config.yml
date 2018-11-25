@@ -30,7 +30,8 @@ jobs:
     working_directory: /tmp/workspace
     machine: true
     steps:
-      - docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
+      - run: |
+          docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
     working_directory: /tmp/workspace
     machine: true
