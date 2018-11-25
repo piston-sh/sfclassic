@@ -1,21 +1,7 @@
-FROM cm2network/steamcmd
+FROM sourceforts/source-dedicated-server
 LABEL maintainer="admin@deniscraig.com"
 
-ENV STEAM_HOME_DIR=/steam
-ENV STEAMAPPS_DIR=/steam/steamapps
 ENV SOURCEFORTS_DIR=/steam/steamapps/sourcemods/sourceforts
-ENV DEDICATED_SERVER_DIR=/steam/steamapps/common/Source\ Dedicated\ Server\ Server
-
-# Run Steamcmd and install dependencies
-# - 205 Source Dedicated Server
-# - 215 Source SDK Base 2006
-# - 232370 Half-Life 2 Deathmatch Dedicated Server
-RUN ./home/steam/steamcmd/steamcmd.sh +login anonymous \
-        +force_install_dir $STEAM_HOME_DIR \
-        +app_update 205 validate \
-        +app_update 215 validate \
-        +app_update 232370 validate \
-        +quit
 
 COPY sourceforts $SOURCEFORTS_DIR
 # Override server config

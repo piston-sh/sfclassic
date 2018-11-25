@@ -46,14 +46,39 @@ jobs:
       - image: docker
     steps:
       - setup_remote_docker
+      - checkout
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push sourceforts/server:$CIRCLE_BUILD_NUM
           docker push sourceforts/server:latest
-
+  build-dedicated-server:
+    working_directory: /sourceforts-server
+    docker:
+      - image: docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: |
+          docker build -t sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM -t sourceforts/source-dedicated-server:latest ./source-dedicated-server
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push sourceforts/source-dedicated-server:$CIRCLE_BUILD_NUM
+          docker push sourceforts/source-dedicated-server:latest
+  build-steamcmd:
+    working_directory: /sourceforts-server
+    docker:
+      - image: docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: |
+          docker build -t sourceforts/steamcmd:$CIRCLE_BUILD_NUM -t sourceforts/steamcmd:latest ./steamcmd
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push sourceforts/steamcmd:$CIRCLE_BUILD_NUM
+          docker push sourceforts/steamcmd:latest
+        
 workflows:
   version: 2
-  main:
+  server:
     jobs:
       - download:
           context: sourceforts-server
@@ -63,7 +88,27 @@ workflows:
       - build:
           requires:
             - unarchive
+      - hold-deploy:
+          type: approval
+          requires:
+            - build
       - deploy:
           context: sourceforts-server
           requires:
-            - build
+            - hold-deploy
+  source-dedicated-server:
+    jobs:
+      - hold-build-dedicated-server:
+          type: approval
+      - build-dedicated-server:
+          context: sourceforts-server
+          requires:
+            - hold-build-dedicated-server
+  steamcmd:
+    jobs:
+      - hold-build-steamcmd:
+          type: approval
+      - build-steamcmd:
+          context: sourceforts-server
+          requires:
+            - hold-build-steamcmd
