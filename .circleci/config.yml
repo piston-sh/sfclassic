@@ -1,15 +1,17 @@
 version: 2
 
+persist_to_workspace: &persist_to_workspace
+  root: ./
+  paths:
+    - ./
+
 jobs:
   checkout:
     working_directory: /tmp/workspace
     machine: true
     steps:
       - checkout
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./
+      - *persist_to_workspace
   download:
     working_directory: /tmp/workspace
     docker:
@@ -17,15 +19,17 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
-      - run: aws s3 sync s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
+      - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
+      - *persist_to_workspace
   unarchive:
     working_directory: /tmp/workspace
     docker:
-      - image: crazymax/7zip
+      - image: sourceforts/7zip
     steps:
       - attach_workspace:
           at: /tmp/workspace
       - run: 7za sourceforts sourceforts.7z
+      - *persist_to_workspace
   build:
     working_directory: /tmp/workspace
     machine: true
@@ -35,9 +39,10 @@ jobs:
     working_directory: /tmp/workspace
     machine: true
     steps:
-      - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - run: docker push sourceforts/server:$CIRCLE_BUILD_NUM
-      - run: docker push sourceforts/server:latest
+      - run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push sourceforts/server:$CIRCLE_BUILD_NUM
+          docker push sourceforts/server:latest
 
 workflows:
   version: 2
