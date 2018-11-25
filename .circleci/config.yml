@@ -38,9 +38,9 @@ jobs:
     docker:
       - image: docker
     steps:
-      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      - docker push sourceforts/server:$CIRCLE_BUILD_NUM
-      - docker push sourceforts/server:latest
+      - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - run: docker push sourceforts/server:$CIRCLE_BUILD_NUM
+      - run: docker push sourceforts/server:latest
 
 workflows:
   version: 2
