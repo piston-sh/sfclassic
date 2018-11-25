@@ -2,8 +2,7 @@ FROM debian:stretch
 LABEL maintainer="admin@deniscraig.com"
 
 ENV STEAMCMD_DIR=/steamcmd
-ENV STEAM_HOME_DIR=/steam
-ENV STEAMAPPS_DIR=/steam/steamapps
+ENV STEAM_HOME_DIR=/home/steam
 
 # Install, update & upgrade packages
 # Create user for the server
@@ -18,7 +17,6 @@ RUN apt-get update && apt-get install -y \
 RUN useradd steam && adduser steam steam
 RUN mkdir -p $STEAMCMD_DIR && chown steam:steam $STEAMCMD_DIR
 RUN mkdir -p $STEAM_HOME_DIR && chown steam:steam $STEAM_HOME_DIR
-RUN mkdir -p $STEAMAPPS_DIR && chown steam:steam $STEAMAPPS_DIR
 USER steam
 
 # Create Directory for SteamCMD
