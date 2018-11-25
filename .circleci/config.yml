@@ -3,8 +3,7 @@ version: 2
 jobs:
   checkout:
     working_directory: /tmp/workspace
-    docker:
-      - image: alpine
+    machine: true
     steps:
       - checkout
       - persist_to_workspace:
@@ -29,14 +28,12 @@ jobs:
       - run: 7za sourceforts sourceforts.7z
   build:
     working_directory: /tmp/workspace
-    docker:
-      - image: docker
+    machine: true
     steps:
       - docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
     working_directory: /tmp/workspace
-    docker:
-      - image: docker
+    machine: true
     steps:
       - run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       - run: docker push sourceforts/server:$CIRCLE_BUILD_NUM
