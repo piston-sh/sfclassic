@@ -1,9 +1,10 @@
 version: 2
 
-persist_to_workspace: &persist_to_workspace
-  root: ./
-  paths:
-    - ./
+persistence: &persistence
+  persist_to_workspace:
+    root: ./
+    paths:
+      - ./
 
 jobs:
   checkout:
@@ -11,7 +12,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - *persist_to_workspace
+      - *persistence
   download:
     working_directory: /tmp/workspace
     docker:
@@ -20,7 +21,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
-      - *persist_to_workspace
+      - *persistence
   unarchive:
     working_directory: /tmp/workspace
     docker:
@@ -29,7 +30,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run: 7za sourceforts sourceforts.7z
-      - *persist_to_workspace
+      - *persistence
   build:
     working_directory: /tmp/workspace
     machine: true
