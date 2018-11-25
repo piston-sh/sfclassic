@@ -17,6 +17,7 @@ jobs:
             - Dockerfile
             - start.sh
             - sourceforts.7z
+            - sourceforts_update.txt
   unarchive:
     working_directory: /sourceforts-server
     docker:
