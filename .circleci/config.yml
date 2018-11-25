@@ -7,12 +7,6 @@ persistence: &persistence
       - ./
 
 jobs:
-  checkout:
-    working_directory: /tmp/workspace
-    machine: true
-    steps:
-      - checkout
-      - *persistence
   download:
     working_directory: /tmp/workspace
     docker:
@@ -20,6 +14,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp/workspace
+      - checkout
       - run: aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z sourceforts.7z
       - *persistence
   unarchive:
@@ -49,11 +44,8 @@ workflows:
   version: 2
   main:
     jobs:
-      - checkout
       - download:
           context: sourceforts-server
-          requires:
-            - checkout
       - unarchive:
           requires:
             - download
