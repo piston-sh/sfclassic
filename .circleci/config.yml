@@ -43,11 +43,13 @@ jobs:
       - run: |
           docker build -t sourceforts/server:$CIRCLE_BUILD_NUM -t sourceforts/server:latest .
   deploy:
+    working_directory: /sourceforts-server
     docker:
       - image: docker
     steps:
       - setup_remote_docker
-      - checkout
+      - attach_workspace:
+          at: /sourceforts-server
       - run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push sourceforts/server:$CIRCLE_BUILD_NUM
