@@ -28,16 +28,16 @@ do_start() {
     chown steam:steam $CHDIR/Steam/logs/daemon.log
     touch $PIDFILE
     chown steam:steam $PIDFILE
-    start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid steam:steam --chdir $CHDIR --exec $DAEMON --test >> $CHDIR/Steam/logs/daemon.log 2>&1
+    start-stop-daemon --start --pidfile $PIDFILE --chuid steam:steam --chdir $CHDIR --exec $DAEMON --test >> $CHDIR/Steam/logs/daemon.log 2>>&1
     [ "$?" != 0 ] && return 1
-    start-stop-daemon --start --pidfile $PIDFILE --background --chuid steam --chdir $CHDIR --exec $DAEMON -- $DAEMON_ARGS >> $CHDIR/Steam/logs/daemon.log 2>&1
+    start-stop-daemon --start --pidfile $PIDFILE --background --chuid steam --chdir $CHDIR --exec $DAEMON -- $DAEMON_ARGS >> $CHDIR/Steam/logs/daemon.log 2>>&1
     [ "$?" != 0 ] && return 2
 }
 do_stop() {
-    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --user steam >> $CHDIR/Steam/logs/daemon.log 2>&1
+    start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile $PIDFILE --user steam >> $CHDIR/Steam/logs/daemon.log 2>>&1
     RETVAL="$?"
     [ "$RETVAL" = 2 ] && return 2
-    start-stop-daemon --stop --quiet --oknodo --retry=TERM/30/KILL/5 --exec $DAEMON >> $CHDIR/Steam/logs/daemon.log 2>&1
+    start-stop-daemon --stop --oknodo --retry=TERM/30/KILL/5 --exec $DAEMON >> $CHDIR/Steam/logs/daemon.log 2>>&1
     [ "$?" = 2 ] && return 2
     rm -f $PIDFILE
     return "$RETVAL"
@@ -62,10 +62,12 @@ case "$1" in
         esac
         ;;
     status)
-        status_of_proc -p $PIDFILE "$DAEMON" "$NAME" && exit 0 || exit $?
+        status_of_proc -p $PIDFILE "$DAEMON" "$NAME" >> $CHDIR/Steam/logs/daemon.log 2>>&1
+        exit $?
         ;;
     restart)
-        log_daemon_msg "Restarting $DESC" "$NAME"
+        echo "Restarting $DESC: $NAME" >> $CHDIR/Steam/logs/daemon.log
+        [ "$VERBOSE" != no ] && log_daemon_msg "Restarting $DESC" "$NAME"
         do_stop
         case "$?" in
             0|1)
