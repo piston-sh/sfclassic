@@ -44,7 +44,6 @@ case "$1" in
         [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
         do_start
         case "$?" in
-
             0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
             2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
         esac
@@ -71,6 +70,7 @@ case "$1" in
                     1) log_end_msg 1 ;;
                     *) log_end_msg 1 ;;
                 esac
+                ;;
             *)
                 log_end_msg 1
                 ;;
