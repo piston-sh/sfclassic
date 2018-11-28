@@ -21,12 +21,13 @@ export MALLOC_CHECK_=0
 DAEMON_ARGS="-steam_dir $DIR -steamcmd_script $DIR/steamcmd/steamcmd.sh -pidfile $PIDFILE $ARGS $CVARS"
 
 . /lib/init/vars.sh
+VERBOSE="yes"
 . /lib/lsb/init-functions
 
 do_start() {
     export MALLOC_CHECK_=0
     touch $PIDFILE
-    chown steam $PIDFILE
+    chown steam:steam $PIDFILE
     start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid steam:steam --chdir $CHDIR --exec $DAEMON --test > /dev/null || return 1
     start-stop-daemon --start --pidfile $PIDFILE --background --chuid steam --chdir $CHDIR --exec $DAEMON -- $DAEMON_ARGS || return 2
 }
