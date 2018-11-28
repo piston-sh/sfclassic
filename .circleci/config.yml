@@ -64,9 +64,10 @@ jobs:
       - image: docker
     steps:
       - setup_remote_docker
+      - checkout
       - attach_workspace:
           at: /sourceforts-server
-      - run: docker build sourceforts/server-test .
+      - run: docker build -t sourceforts/server-test .
         
 workflows:
   version: 2
