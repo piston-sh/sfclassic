@@ -25,6 +25,7 @@ DAEMON_ARGS="-steam_dir $CHDIR -steamcmd_script $CHDIR/steamcmd/steamcmd.sh -pid
 do_start() {
     export MALLOC_CHECK_=0
     touch $CHDIR/Steam/logs/daemon.log
+    chown steam:steam $CHDIR/Steam/logs/daemon.log
     touch $PIDFILE
     chown steam:steam $PIDFILE
     start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid steam:steam --chdir $CHDIR --exec $DAEMON --test >> $CHDIR/Steam/logs/daemon.log 2>&1
