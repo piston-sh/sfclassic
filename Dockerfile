@@ -24,5 +24,5 @@ ENV BUILD_LENGTH_SHORT=240
 ENV COMBAT_LENGTH=600
 
 VOLUME $SOURCEFORTS_DIR
-ENTRYPOINT [ "/bin/sh", "-c" ]
-CMD service sourceforts.sh start && tail -F $STEAM_HOME_DIR/Steam/logs/*
+ENTRYPOINT [ "/bin/sh" ]
+CMD [ "-c", "service sourceforts.sh start && tail -F $STEAM_HOME_DIR/Steam/logs/*" ]
