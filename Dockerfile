@@ -11,6 +11,9 @@ COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
 USER root
 COPY init.d/sourceforts.sh /etc/init.d/sourceforts.sh
 RUN chmod +x /etc/init.d/sourceforts.sh
+
+# Steam users needs somewhere to create pidfiles
+RUN mkdir -p /var/run/sourceforts && chown steam:steam /var/run/sourceforts
 USER steam
 
 ENV HOSTNAME="docker-sourceforts"
