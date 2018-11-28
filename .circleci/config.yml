@@ -45,9 +45,34 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push sourceforts/server:$CIRCLE_BUILD_NUM
           docker push sourceforts/server:latest
+  build-gdb:
+    working_directory: /sourceforts-server
+    docker:
+      - image: docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /sourceforts-server
+      - run: |
+          docker build -t sourceforts/server:gdb-$CIRCLE_BUILD_NUM -t sourceforts/server:gdb .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push sourceforts/server:gdb-$CIRCLE_BUILD_NUM
+          docker push sourceforts/server:gdb
+  test:
+    working_directory: /sourceforts-server
+    docker:
+      - image: docker
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /sourceforts-server
+      - run: docker build sourceforts/server-test .
         
 workflows:
   version: 2
+  test:
+    jobs:
+      - test
   server:
     jobs:
       - download:
@@ -59,3 +84,13 @@ workflows:
           context: sourceforts-server
           requires:
             - unarchive
+          filters:
+            branches:
+              only: master
+      - build-gdb:
+          context: sourceforts-server
+          requires:
+            - unarchive
+          filters:
+            branches:
+              only: gdb
