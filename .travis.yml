@@ -1,7 +1,3 @@
-notifications:
-  webhooks:
-    - https://discordapp.com/api/webhooks/517358448883793950/l4H7FDzqEMBuFJurmMGPFRgrwfOZaqGNTBeR4yhLxvqlTvVudvvXsil5krjwx2Kq4LOW
-
 services:
   - docker
 
@@ -23,3 +19,12 @@ deploy:
   script: bash .travisci/deploy.sh
   on:
     branch: master
+
+after_success:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success https://discordapp.com/api/webhooks/517358448883793950/l4H7FDzqEMBuFJurmMGPFRgrwfOZaqGNTBeR4yhLxvqlTvVudvvXsil5krjwx2Kq4LOW
+after_failure:
+  - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure https://discordapp.com/api/webhooks/517358448883793950/l4H7FDzqEMBuFJurmMGPFRgrwfOZaqGNTBeR4yhLxvqlTvVudvvXsil5krjwx2Kq4LOW
