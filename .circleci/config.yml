@@ -67,6 +67,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: /sourceforts-server
+      - run: mkdir -p sourceforts
       - run: docker build -t sourceforts/server-test .
         
 workflows:
