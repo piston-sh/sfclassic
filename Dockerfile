@@ -1,4 +1,4 @@
-FROM sourceforts/dedicated-server
+FROM sourceforts/dedicated-server:debian-gdb
 LABEL maintainer="admin@deniscraig.com"
 
 ENV SOURCEFORTS_DIR=$STEAM_HOME_DIR/sourceforts
@@ -6,6 +6,15 @@ ENV SOURCEFORTS_DIR=$STEAM_HOME_DIR/sourceforts
 COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
 # Override server config
 COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
+
+# We need to be user to make the init script executable
+USER root
+COPY init.d/sourceforts.sh /etc/init.d/sourceforts.sh
+RUN chmod +x /etc/init.d/sourceforts.sh
+
+# Steam users needs somewhere to create pidfiles
+RUN mkdir -p /var/run/sourceforts && chown steam:steam /var/run/sourceforts
+USER steam
 
 ENV HOSTNAME="docker-sourceforts"
 ENV DEFAULT_MAP="sf_skywalk"
@@ -15,6 +24,4 @@ ENV BUILD_LENGTH_SHORT=240
 ENV COMBAT_LENGTH=600
 
 VOLUME $SOURCEFORTS_DIR
-COPY --chown=steam:steam start.sh start.sh
-RUN chmod +x start.sh
-ENTRYPOINT ./start.sh
+CMD service sourceforts.sh start && tail -F $STEAM_HOME_DIR/Steam/logs/*
