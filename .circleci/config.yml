@@ -14,10 +14,10 @@ jobs:
           root: ./
           paths:
             - cfg
-            - Dockerfile
-            - start.sh
+            - init.d
             - sourceforts.7z
             - sourceforts_update.txt
+            - Dockerfile
   unarchive:
     working_directory: /sourceforts-server
     docker:
