@@ -1,3 +1,7 @@
+notifications:
+  webhooks:
+    - https://discordapp.com/api/webhooks/517358448883793950/l4H7FDzqEMBuFJurmMGPFRgrwfOZaqGNTBeR4yhLxvqlTvVudvvXsil5krjwx2Kq4LOW
+
 services:
   - docker
 
