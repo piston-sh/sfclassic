@@ -7,6 +7,12 @@ COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
 # Override server config
 COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
 
+# We need to be user to make the init script executable
+USER root
+COPY init.d/sourceforts.sh /etc/init.d/sourceforts.sh
+RUN chmod +x /etc/init.d/sourceforts.sh
+USER steam
+
 ENV HOSTNAME="docker-sourceforts"
 ENV DEFAULT_MAP="sf_skywalk"
 ENV BLOCK_LIMIT=50 
@@ -15,6 +21,4 @@ ENV BUILD_LENGTH_SHORT=240
 ENV COMBAT_LENGTH=600
 
 VOLUME $SOURCEFORTS_DIR
-COPY --chown=steam:steam start.sh start.sh
-RUN chmod +x start.sh
-ENTRYPOINT ./start.sh
+CMD service sourceforts.sh start && tail -F $STEAM_HOME_DIR/Steam/logs/*
