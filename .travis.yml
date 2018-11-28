@@ -7,6 +7,8 @@ script:
   - docker pull sourceforts/7zip
   - docker run -v $(pwd):/tmp sourceforts/7zip 7za e -r -aoa -o/tmp/sourceforts /tmp/sourceforts.7z
   - rm -f sourceforts.7z
+  - ls
+  - ls sourceforts
   - docker build -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/server:latest .
 
 before_deploy:
