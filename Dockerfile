@@ -1,4 +1,4 @@
-FROM sourceforts/dedicated-server
+FROM sourceforts/dedicated-server:debian-gdb
 LABEL maintainer="admin@deniscraig.com"
 
 ENV SOURCEFORTS_DIR=$STEAM_HOME_DIR/sourceforts
