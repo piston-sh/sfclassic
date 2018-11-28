@@ -1,7 +1,7 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="SourceForts Dedicated Server"
 NAME=sourceforts
-PIDFILE=/var/run/$NAME.pid
+PIDFILE=/var/run/$NAME/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
 CHDIR=/home/steam
