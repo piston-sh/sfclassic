@@ -1,0 +1,23 @@
+services:
+  - docker
+
+before_install:
+  - docker pull garland/aws-cli-docker
+  - docker run -v $(pwd):/tmp garland/aws-cli-docker aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z /tmp/sourceforts.7z
+  - docker pull sourceforts/7zip
+  - docker run -v $(pwd):/tmp sourceforts/7zip 7za e -r -aoa -o/tmp/sourceforts /tmp/sourceforts.7z
+  - rm -f sourceforts.7z
+
+script:
+  - docker build -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/dedicated-server:latest .
+
+before_deploy:
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+deploy:
+  provider: script
+  script: |
+    docker push sourceforts/dedicated-server:$TRAVIS_BUILD_NUMBER && 
+    docker push sourceforts/dedicated-server:latest
+  on:
+    branch: master
