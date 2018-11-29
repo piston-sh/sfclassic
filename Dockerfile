@@ -1,7 +1,7 @@
 FROM sourceforts/dedicated-server
 LABEL maintainer="admin@deniscraig.com"
 
-ENV SOURCEFORTS_DIR=$STEAM_HOME_DIR/sourceforts
+ENV SOURCEFORTS_DIR=$STEAM_USER_DIR/sourceforts
 
 COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
 # Override server config
@@ -11,7 +11,7 @@ COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
 USER root
 COPY init.d/sourceforts.sh /etc/init.d/sourceforts.sh
 RUN chmod +x /etc/init.d/sourceforts.sh
-RUN touch $STEAM_HOME_DIR/Steam/logs/daemon.log && chown steam:steam $STEAM_HOME_DIR/Steam/logs/daemon.log
+RUN touch $STEAM_USER_DIR/Steam/logs/daemon.log && chown steam:steam $STEAM_USER_DIR/Steam/logs/daemon.log
 
 # Steam users needs somewhere to create pidfiles
 RUN mkdir -p /var/run/sourceforts && chown steam:steam /var/run/sourceforts
@@ -26,4 +26,4 @@ ENV COMBAT_LENGTH=600
 
 VOLUME $SOURCEFORTS_DIR
 ENTRYPOINT [ "/bin/sh" ]
-CMD [ "-c", "service sourceforts.sh start && tail -F $STEAM_HOME_DIR/Steam/logs/*" ]
+CMD [ "-c", "service sourceforts.sh start && tail -F $STEAM_USER_DIR/Steam/logs/*" ]
