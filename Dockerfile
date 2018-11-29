@@ -1,4 +1,4 @@
-FROM sourceforts/dedicated-server:ubuntu-xenial-20
+FROM sourceforts/dedicated-server
 LABEL maintainer="admin@deniscraig.com"
 
 ENV SOURCEFORTS_DIR=$STEAM_HOME_DIR/sourceforts
