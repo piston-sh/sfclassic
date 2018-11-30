@@ -1,3 +1,5 @@
+#!/bin/bash
+
 LOG_DIR=$STEAM_USER_DIR/Steam/logs
 LOG_FILE=$LOG_DIR/daemon.log
 GAME="sourceforts"
