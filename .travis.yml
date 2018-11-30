@@ -5,9 +5,9 @@ script:
   - docker pull garland/aws-cli-docker
   - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -v $(pwd):/tmp garland/aws-cli-docker aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z /tmp/sourceforts.7z
   - docker pull sourceforts/7zip
-  - docker run -v $(pwd):/tmp sourceforts/7zip 7za e -r -aoa -o/tmp/sourceforts /tmp/sourceforts.7z
+  - docker run -w /tmp -v $(pwd):/tmp sourceforts/7zip 7za x sourceforts.7z
   - rm -f sourceforts.7z
-  - sudo chmod -R 777 sourceforts # lol
+  - sudo chmod -R +x sourceforts/bin
   - docker build -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/server:latest .
 
 before_deploy:
