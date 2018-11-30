@@ -7,7 +7,6 @@ script:
   - docker pull sourceforts/7zip
   - docker run -w /tmp -v $(pwd):/tmp sourceforts/7zip 7za x sourceforts.7z
   - rm -f sourceforts.7z
-  - ls -l sourceforts
   - sudo chmod -R 777 sourceforts # lol
   - docker build -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/server:latest .
 
