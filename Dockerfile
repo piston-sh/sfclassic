@@ -1,4 +1,4 @@
-FROM sourceforts/dedicated-server
+FROM sourceforts/srcds-server
 LABEL maintainer="admin@deniscraig.com"
 
 ENV SOURCEFORTS_DIR=$STEAM_USER_DIR/sourceforts
