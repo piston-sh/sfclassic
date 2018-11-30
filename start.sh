@@ -13,7 +13,7 @@ if [ ! -f $LOG_FILE ]; then
 fi
 
 # Update hostnames
-find cfg -name *.cfg -exec sed -i "s/{hostname}/$HOSTNAME/g" {} \;
+find $SOURCEFORTS_DIR/cfg -name *.cfg -exec sed -i "s/{hostname}/$HOSTNAME/g" {} \;
 
 ./srcds_run -steam_dir $(pwd) -steamcmd_script $(pwd)/steamcmd/steamcmd.sh $ARGS >> $LOG_FILE 2>&1
 tail -F $LOG_DIR/*
