@@ -7,8 +7,6 @@ COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
 # Override server config
 COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
 
-# Steam users needs somewhere to create pidfiles
-RUN mkdir -p /var/run/sourceforts && chown steam:steam /var/run/sourceforts
 USER steam
 
 ENV HOSTNAME="docker-sourceforts"
