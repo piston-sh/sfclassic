@@ -53,9 +53,9 @@ WEBHOOK_DATA='{
       "url": "'"$TRAVIS_BUILD_WEB_URL"'",
       "icon_url": "'$AVATAR'"
     },
-    "title": "'"[$STATUS_MESSAGE] $COMMIT_SUBJECT"'",
+    "title": "'"$STATUS_MESSAGE: $COMMIT_SUBJECT"'",
     "url": "'"$URL"'",
-    "description": "'"${COMMIT_MESSAGE//$'\n'/ }"\\n\\n"$CREDITS"'",
+    "description": "'"by $AUTHORNAME"\\n\\n"${COMMIT_MESSAGE//$'\n'/ }",
     "fields": [
       {
         "name": "Commit",
