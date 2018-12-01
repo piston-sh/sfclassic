@@ -16,7 +16,7 @@ ENV API_DIR=$STEAM_USER_DIR/api
 USER root
 
 RUN apt-get install -y nodejs
-RUN ln -s /usr/bin/node /usr/bin/nodejs
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 COPY --chown=steam:steam api $API_DIR
 USER steam
