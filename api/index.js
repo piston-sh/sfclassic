@@ -22,8 +22,9 @@ router.post('/request-update', function(req, res) {
     });
 
     rcon.connect().then(function() {
-        rcon.command(`say [BOT] New server version detected. (new: ${req.body.message}, current: ${process.env.VERSION})`)
-            .catch(console.error);
+        rcon.command(`say [BOT] New server version detected.`);
+        rcon.command(`say [BOT] new: ${req.body.message}, current: ${process.env.VERSION}`);
+        rcon.command(`say [BOT] restarting on next map...`);
     }).catch(console.error);
 
     res.send(200);
