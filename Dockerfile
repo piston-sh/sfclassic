@@ -1,6 +1,9 @@
 FROM sourceforts/srcds-server
 LABEL maintainer="admin@deniscraig.com"
 
+ARG version=1
+ENV VERSION $version
+
 ENV SOURCEFORTS_DIR=$STEAM_USER_DIR/sourceforts
 
 COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
