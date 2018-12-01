@@ -31,4 +31,4 @@ router.post('/command', function(req, res) {
 
 // TODO; secure with HTTPS
 app.use('/api/v1/', router);
-app.listen(80);
+app.listen(55555);
