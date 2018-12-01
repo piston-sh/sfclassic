@@ -1,6 +1,7 @@
 // NOTE: This runs on nodejs 4.2.6
 
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
