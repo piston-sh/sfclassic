@@ -15,13 +15,12 @@ USER steam
 ARG version=1
 ENV VERSION $version
 
+# <Game setup>
 ENV SOURCEFORTS_DIR=$STEAM_USER_DIR/sourceforts
 
 COPY --chown=steam:steam sourceforts $SOURCEFORTS_DIR
 # Override server config
 COPY --chown=steam:steam cfg $SOURCEFORTS_DIR/cfg
-
-USER steam
 
 ENV HOSTNAME="docker-sourceforts"
 ENV DEFAULT_MAP="sf_skywalk"
@@ -31,5 +30,7 @@ ENV BUILD_LENGTH_SHORT=240
 ENV COMBAT_LENGTH=600
 
 VOLUME $SOURCEFORTS_DIR
+# </Game setup>
+
 COPY --chown=steam:steam start.sh start.sh
 ENTRYPOINT [ "./start.sh" ]
