@@ -22,5 +22,6 @@ deploy:
 
 after_success:
   - ./.travisci/send.sh success $DISCORD_WEBHOOK_URL
+  - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws sns publish --region $AWS_REGION --topic-arn $AWS_TOPIC_ARN --message $TRAVIS_BUILD_NUMBER
 after_failure:
   - ./.travisci/send.sh failure $DISCORD_WEBHOOK_URL
