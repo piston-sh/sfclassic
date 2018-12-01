@@ -19,6 +19,12 @@ RUN apt-get install -y nodejs
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 COPY --chown=steam:steam api $API_DIR
+
+# User needs access to bind to port 80
+RUN touch /etc/authbind/byport/80
+RUN chown steam:steam /etc/authbind/byport/80
+RUN chmod 755 /etc/authbind/byport/80
+
 USER steam
 # </API setup>
 
