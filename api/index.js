@@ -15,14 +15,14 @@ router.get('/version', function(req, res) {
 });
 
 var Rcon = require('srcds-rcon');
-router.post('/command', function(req, res) {
+router.post('/request-update', function(req, res) {
     var rcon = Rcon({
         address: 'localhost',
-        password: req.body.password,
+        password: process.env.SRCDS_RCONPW,
     });
 
     rcon.connect().then(function() {
-        rcon.command(req.body.command)
+        rcon.command(`say [BOT] New server version detected. ${req.body.message}`)
             .catch(console.error);
     }).catch(console.error);
 
