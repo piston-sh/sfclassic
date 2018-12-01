@@ -7,7 +7,7 @@ USER root
 
 RUN apt-get install -y nodejs
 
-COPY --chown=steam:steam api $STEAM_USER_DIR
+COPY --chown=steam:steam api $API_DIR
 USER steam
 # </API setup>
 
