@@ -1,3 +1,7 @@
+language: node_js
+node_js:
+  - "4.2"
+
 services:
   - docker
 
@@ -8,7 +12,7 @@ script:
   - docker run -w /tmp -v $(pwd):/tmp sourceforts/7zip 7za x sourceforts.7z
   - rm -f sourceforts.7z
   - sudo chmod -R 777 sourceforts # lol
-  - ls -l sourceforts
+  - pushd api; npm i; popd;
   - docker build --build-arg version=$TRAVIS_BUILD_NUMBER -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/server:latest .
 
 before_deploy:

@@ -1,6 +1,16 @@
 FROM sourceforts/srcds-server
 LABEL maintainer="admin@deniscraig.com"
 
+# <API setup>
+ENV API_DIR=$STEAM_USER_DIR/api
+USER root
+
+RUN apt-get install -y nodejs
+
+COPY --chown=steam:steam api $STEAM_USER_DIR
+USER steam
+# </API setup>
+
 ARG version=1
 ENV VERSION $version
 
