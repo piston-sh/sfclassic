@@ -55,7 +55,7 @@ WEBHOOK_DATA='{
     },
     "title": "'"$STATUS_MESSAGE: $COMMIT_SUBJECT"'",
     "url": "'"$URL"'",
-    "description": "'"by $AUTHORNAME"\\n\\n"${COMMIT_MESSAGE//$'\n'/ }",
+    "description": "'"by $AUTHORNAME"\\n\\n"${COMMIT_MESSAGE//$'\n'/ }"'",
     "fields": [
       {
         "name": "Commit",
