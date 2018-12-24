@@ -1,4 +1,4 @@
-FROM sourceforts/srcds-server
+FROM pistonsh/srcds-server
 LABEL maintainer="admin@deniscraig.com"
 
 ARG version=1
