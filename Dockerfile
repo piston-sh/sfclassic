@@ -11,19 +11,6 @@ ENV HOSTNAME="docker-$game"
 ARG default_map=sf_skywalk
 ENV DEFAULT_MAP=$default_map
 
-# <API setup>
-ENV API_DIR=$STEAM_USER_DIR/api
-USER root
-
-RUN apt-get install -y nodejs
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-COPY --chown=steam:steam api $API_DIR
-
-USER steam
-# </API setup>
-
-# <Game setup>
 ENV GAME_DIR=$STEAM_USER_DIR/$game
 
 COPY --chown=steam:steam $game $GAME_DIR
@@ -36,7 +23,6 @@ ENV BUILD_LENGTH_SHORT=240
 ENV COMBAT_LENGTH=600
 
 VOLUME $GAME_DIR
-# </Game setup>
 
 COPY --chown=steam:steam start.sh start.sh
 ENTRYPOINT [ "./start.sh" ]
