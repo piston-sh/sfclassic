@@ -1,3 +1,3 @@
 #!/bin/bash
-docker push sourceforts/server:$TRAVIS_BUILD_NUMBER
-docker push sourceforts/server:latest
+docker push pistonsh/sfclassic:$TRAVIS_BUILD_NUMBER
+docker push pistonsh/sfclassic:latest

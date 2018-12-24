@@ -7,13 +7,13 @@ services:
 
 script:
   - docker pull garland/aws-cli-docker
-  - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -v $(pwd):/tmp garland/aws-cli-docker aws s3 cp s3://$AWS_S3_BUCKET/sourceforts.7z /tmp/sourceforts.7z
-  - docker pull sourceforts/7zip
-  - docker run -w /tmp -v $(pwd):/tmp sourceforts/7zip 7za x sourceforts.7z
-  - rm -f sourceforts.7z
-  - sudo chmod -R 777 sourceforts # lol
+  - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -v $(pwd):/tmp garland/aws-cli-docker aws s3 cp s3://$AWS_S3_BUCKET/sfclassic.7z /tmp/sfclassic.7z
+  - docker pull pistonsh/7zip
+  - docker run -w /tmp -v $(pwd):/tmp pistonsh/7zip 7za x sfclassic.7z
+  - rm -f sfclassic.7z
+  - sudo chmod -R 777 sfclassic # lol
   - pushd api; npm i; popd;
-  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER -t sourceforts/server:$TRAVIS_BUILD_NUMBER -t sourceforts/server:latest .
+  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER -t pistonsh/sfclassic:$TRAVIS_BUILD_NUMBER -t pistonsh/sfclassic:latest .
 
 before_deploy:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
