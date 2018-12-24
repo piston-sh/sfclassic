@@ -30,7 +30,7 @@ COPY --chown=steam:steam $game $GAME_DIR
 # Override server config
 COPY --chown=steam:steam cfg $GAME_DIR/cfg
 
-ENV BLOCK_LIMIT=50 
+ENV BLOCK_LIMIT=50
 ENV BUILD_LENGTH_LONG=600 
 ENV BUILD_LENGTH_SHORT=240 
 ENV COMBAT_LENGTH=600

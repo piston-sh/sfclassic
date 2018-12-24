@@ -11,9 +11,6 @@ if [ ! -f $LOG_FILE ]; then
     touch $LOG_FILE
 fi
 
-# Run API
-$API_DIR/node_modules/.bin/pm2 start $API_DIR/index.js
-
 # Update hostnames
 find $GAME_DIR/cfg -name *.cfg -exec sed -i "s/{hostname}/$HOSTNAME/g" {} \;
 
