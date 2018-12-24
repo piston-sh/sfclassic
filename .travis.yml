@@ -12,7 +12,6 @@ script:
   - docker run -w /tmp -v $(pwd):/tmp pistonsh/7zip 7za x sfclassic.7z
   - rm -f sfclassic.7z
   - sudo chmod -R 777 sfclassic # lol
-  - pushd api; npm i; popd;
   - docker build --build-arg version=$TRAVIS_BUILD_NUMBER -t pistonsh/sfclassic:$TRAVIS_BUILD_NUMBER -t pistonsh/sfclassic:latest .
 
 before_deploy:
