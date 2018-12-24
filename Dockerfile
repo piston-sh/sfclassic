@@ -4,8 +4,8 @@ LABEL maintainer="admin@deniscraig.com"
 ARG version=1
 ENV VERSION $version
 
-ARG game=sourceforts
-ENV GAME=sourceforts
+ARG game=sfclassic
+ENV GAME $game
 ENV HOSTNAME="docker-$game"
 
 ARG default_map=sf_skywalk
